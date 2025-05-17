@@ -1,26 +1,106 @@
-@import "tailwindcss";
+/* src/app/globals.css */
+
+@import "tailwindcss"; /* KEEP THIS - It's essential for Tailwind */
 
 :root {
+  /* These define CSS variables. They might be overridden or less relevant
+     for the body if you use a full background image, but good to keep for other elements. */
   --background: #ffffff;
   --foreground: #171717;
 }
 
 @theme inline {
+  /* This is for Tailwind v4's inline theme capabilities. Keep it. */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* If you are not using Geist fonts, you can comment these out or remove them */
+  /* --font-sans: var(--font-geist-sans); */
+  /* --font-mono: var(--font-geist-mono); */
 }
 
+/* --- REMOVE THIS DARK MODE BLOCK --- */
+/* Since you decided to remove next-themes and dark/light mode toggle,
+   this @media query for prefers-color-scheme: dark is no longer needed
+   for setting root variables for dark mode. Tailwind's dark: variants
+   were handled by the class on <html> which we removed. */
+/*
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
+*/
 
+/* --- NEW HTML RULE --- */
+html {
+  height: 100%; /* Ensure html takes full height for full page backgrounds */
+}
+
+/* --- MODIFIED BODY RULE --- */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* background: var(--background); */ /* Commented out: Replaced by background-image */
+  color: var(--foreground); /* Sets default text color */
+  
+  /* You can set a default font stack here if not handled entirely by Next/font in layout.tsx
+     The Inter font from your layout.tsx will likely take precedence for most text.
+     This Arial, Helvetica is a very basic fallback.
+  */
+  font-family: Inter, Arial, Helvetica, sans-serif; /* Added Inter as primary from your layout */
+  
+  min-height: 100%; /* Ensure body takes at least full height */
+
+  /* --- ADDED BACKGROUND IMAGE STYLES --- */
+  background-image: url('/legislativas2025/backgrounds/background-image.jpg');  /* MAKE SURE THIS PATH IS CORRECT (relative to /public) */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Makes background stay fixed on scroll */
+  /* --- END BACKGROUND IMAGE STYLES --- */
+}
+
+
+/* === YOUR EXISTING CUSTOM STYLES - KEEP THESE AS THEY ARE === */
+
+/* Custom animation for modal appearance */
+@keyframes modal-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-modal-appear {
+  animation: modal-appear 0.3s ease-out;
+}
+
+/* Custom scrollbar for modal content (optional, but nice) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  /* Note: theme() function for Tailwind colors works in Tailwind CSS files,
+     but might not work directly in a plain .css file's @keyframes or custom properties
+     unless processed by Tailwind. For simplicity here, if these don't work,
+     replace theme('colors.slate.400') with an actual hex/rgb color like #94a3b8 (slate-400) */
+  background-color: #94a3b8; /* Replaced theme('colors.slate.400') with hex for direct CSS */
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #64748b; /* Replaced theme('colors.slate.500') with hex for direct CSS */
+}
+
+/* For Firefox scrollbar (simpler styling) */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #94a3b8 transparent; /* Replaced theme('colors.slate.400') with hex */
 }
